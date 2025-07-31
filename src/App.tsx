@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ,useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -7,7 +7,6 @@ import liff from "@line/liff";
 function App() {
   const [count, setCount] = useState(0);
   const [profile, setProfile] = useState<any>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [idToken, setIdToken] = useState<string | null>(null);
   const [contextData, setContextData] = useState<any>();
 
