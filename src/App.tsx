@@ -9,6 +9,7 @@ function App() {
   const [profile, setProfile] = useState<any>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [idToken, setIdToken] = useState<string | null>(null);
+  const [contextData, setContextData] = useState<any>(null);
   const loginLine = async () => {
     try {
       await liff.init({ liffId: "2007844970-wd1e003k" });
@@ -17,6 +18,8 @@ function App() {
       const token = liff.getIDToken();
       console.log("userProfile", liff.getContext());
       console.log("token", token);
+      const contextData = liff.getContext();
+      setContextData(contextData);
       setProfile(userProfile);
       setIdToken(token);
       setIsLoggedIn(true);
@@ -27,10 +30,11 @@ function App() {
 
   const getContext = async () => {
     try {
-      // await liff.init({ liffId: "2007844970-wd1e003k" });
-      window.open("https://page.line.me/536whbrf", "_blank");
-      // console.log("context:", liff.getContext());
-      // console.log("os:", liff.getOS());
+      await liff.init({ liffId: "2007844970-wd1e003k" });
+      console.log("context:", liff.getContext());
+      const contextData = liff.getContext();
+      setContextData(contextData);
+      console.log("os:", liff.getOS());
     } catch (err) {
       console.error("LIFF init error:", err);
     }
@@ -58,6 +62,7 @@ function App() {
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
+        {contextData}
       </p>
       {isLoggedIn ? (
         <div>
@@ -68,7 +73,12 @@ function App() {
         </div>
       ) : (
         <div>
-          Login line <button onClick={() => getContext()}>ผูกบัญชีไลน์</button>
+          <div>
+            <button onClick={() => loginLine()}> Login line</button>
+          </div>
+          <div>
+            <button onClick={() => getContext()}>ผูกบัญชีไลน์</button>
+          </div>
         </div>
       )}
     </>
