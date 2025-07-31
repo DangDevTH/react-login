@@ -33,8 +33,9 @@ function App() {
       console.log("context:", liff.getContext());
       const contextData = liff.getContext();
       setContextData({ ...contextData });
-      console.log("getAccessToken", liff.getAccessToken);
-      console.log("getDecodedIDToken", liff.getDecodedIDToken);
+      console.log("getAccessToken", liff.getAccessToken());
+      console.log("getProfile", liff.getProfile());
+      console.log("getDecodedIDToken", liff.getDecodedIDToken());
       console.log("os:", liff.getOS());
     } catch (err) {
       console.error("LIFF init error:", err);
