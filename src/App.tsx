@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -10,6 +10,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [idToken, setIdToken] = useState<string | null>(null);
   const [contextData, setContextData] = useState<any>();
+
   const loginLine = async () => {
     try {
       await liff.init({ liffId: "2007844970-wd1e003k" });
@@ -19,8 +20,8 @@ function App() {
       console.log("userProfile", liff.getContext());
       console.log("token", token);
       const contextData = liff.getContext();
-      setContextData(contextData);
-      setProfile(userProfile);
+      setContextData({ ...contextData });
+      setProfile({ ...userProfile });
       setIdToken(token);
       setIsLoggedIn(true);
     } catch (err) {
@@ -39,6 +40,17 @@ function App() {
       console.error("LIFF init error:", err);
     }
   };
+
+  const logoutLine = async () => {
+    await liff.init({ liffId: "2007844970-wd1e003k" });
+    liff.logout();
+  };
+
+  useEffect(() => {
+    if (contextData?.userId) {
+      setIsLoggedIn(true);
+    }
+  }, [isLoggedIn]);
 
   console.log("Token", idToken);
   return (
@@ -69,7 +81,7 @@ function App() {
           <h2>Welcome, {profile?.displayName}</h2>
           <img src={profile?.pictureUrl} alt="profile" style={{ width: 100 }} />
           <p>User ID: {profile?.userId}</p>
-          <button onClick={() => liff.logout()}>ผูกบัญชีไลน์</button>
+          <button onClick={() => logoutLine()}>logout</button>
         </div>
       ) : (
         <div>
