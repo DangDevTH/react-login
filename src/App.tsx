@@ -5,7 +5,6 @@ import "./App.css";
 import liff from "@line/liff";
 
 function App() {
-  const [count, setCount] = useState(0);
   const [profile, setProfile] = useState<any>(null);
   const [idToken, setIdToken] = useState<string | null>(null);
   const [contextData, setContextData] = useState<any>();
@@ -60,9 +59,7 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+        <button>count is {profile}</button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
