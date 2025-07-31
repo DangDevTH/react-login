@@ -35,6 +35,7 @@ function App() {
       setContextData({ ...contextData });
       console.log("getAccessToken", liff.getAccessToken());
       console.log("getProfile", liff.getProfile());
+      console.log("getProfilePlus", liff.getProfilePlus());
       console.log("getDecodedIDToken", liff.getDecodedIDToken());
       console.log("os:", liff.getOS());
     } catch (err) {
