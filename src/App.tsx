@@ -76,7 +76,7 @@ function App() {
         showContext
         {contextData?.userId && <div>context:{contextData.userId}</div>}
       </p>
-      {isLoggedIn ? (
+      {contextData?.userId ? (
         <div>
           <h2>Welcome, {profile?.displayName}</h2>
           <img src={profile?.pictureUrl} alt="profile" style={{ width: 100 }} />
