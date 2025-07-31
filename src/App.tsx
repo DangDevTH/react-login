@@ -5,48 +5,7 @@ import "./App.css";
 import liff from "@line/liff";
 
 function App() {
-  const [idToken, setIdToken] = useState<string | null>(null);
   const [contextData, setContextData] = useState<any>(null);
-  function sleep(ms: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
-  const loginLine = async () => {
-    try {
-      await sleep(5000);
-      await liff.init({ liffId: "2007844970-wd1e003k" });
-      liff.login({ redirectUri: window.location.href });
-      const userProfile = liff.getDecodedIDToken();
-      const token = liff.getAccessToken();
-      console.log("userProfile", liff.getContext());
-      console.log("token", token);
-      const contextData = liff.getContext();
-      setContextData({ ...contextData });
-      console.log({ ...userProfile });
-      setIdToken(token);
-    } catch (err) {
-      console.error("LIFF init error:", err);
-    }
-  };
-
-  useEffect(() => {
-    const initLiff = async () => {
-      try {
-        await liff.init({ liffId: "2007844970-wd1e003k" });
-        const getIDToken = liff.getIDToken();
-        console.log("getIDToken", getIDToken);
-        if (!getIDToken) {
-          await loginLine();
-        } else {
-          setIdToken(getIDToken);
-        }
-      } catch (err) {
-        console.error("LIFF init failed:", err);
-      }
-    };
-
-    initLiff();
-  }, [idToken]);
 
   const getContext = async () => {
     try {
