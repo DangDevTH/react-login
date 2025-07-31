@@ -23,7 +23,6 @@ function App() {
       console.log({ ...userProfile });
       setProfile({ ...userProfile });
       setIdToken(token);
-      setIsLoggedIn(true);
     } catch (err) {
       console.error("LIFF init error:", err);
     }
