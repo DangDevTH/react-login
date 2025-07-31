@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -7,13 +7,32 @@ import liff from "@line/liff";
 function App() {
   const [profile, setProfile] = useState<any>(null);
   const [idToken, setIdToken] = useState<string | null>(null);
-  const [contextData, setContextData] = useState<any>();
+  const [contextData, setContextData] = useState<any>(null);
+
+  useEffect(() => {
+    const initLiff = async () => {
+      try {
+        await liff.init({ liffId: "2007844970-wd1e003k" });
+        const getIDToken = liff.getIDToken();
+        console.log("getIDToken", getIDToken);
+        if (!getIDToken) {
+          liff.login();
+        } else {
+          setIdToken(getIDToken);
+        }
+      } catch (err) {
+        console.error("LIFF init failed:", err);
+      }
+    };
+
+    initLiff();
+  }, [idToken]);
 
   const loginLine = async () => {
     try {
       await liff.init({ liffId: "2007844970-wd1e003k" });
-      liff.login({ redirectUri: window.location.href });
-      const userProfile = await liff.getDecodedIDToken();
+      liff.login();
+      const userProfile = liff.getDecodedIDToken();
       const token = liff.getAccessToken();
       console.log("userProfile", liff.getContext());
       console.log("token", token);
@@ -46,8 +65,24 @@ function App() {
   const logoutLine = async () => {
     await liff.init({ liffId: "2007844970-wd1e003k" });
     liff.logout();
+    window.location.href = "/";
     setContextData(null);
   };
+
+  useEffect(() => {
+    const initContext = async () => {
+      try {
+        await liff.init({ liffId: "2007844970-wd1e003k" });
+        const contextData = await liff.getContext();
+        if (contextData?.userId) {
+          setContextData({ ...contextData });
+        } else {
+          setContextData(null);
+        }
+      } catch (error) {}
+    };
+    initContext();
+  }, [contextData]);
 
   console.log("Token", idToken);
   return (
@@ -66,17 +101,26 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
+        <button className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg shadow-md text-white bg-[#00C300] hover:bg-[#00a300] transition">
+          <img
+            src="https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_login.png"
+            alt="LINE logo"
+            className="h-6 w-6"
+          />
+          <span className="font-medium">Login with LINE</span>
+        </button>
       </div>
       <p className="read-the-docs">
         showContext
         {contextData?.userId && <div>context:{contextData.userId}</div>}
       </p>
-      {contextData?.userId ? (
+      {idToken ? (
         <div>
-          <h2>Welcome, {profile?.displayName}</h2>
-          <img src={profile?.pictureUrl} alt="profile" style={{ width: 100 }} />
-          <p>User ID: {profile}</p>
+          <p>User ID: {idToken}</p>
           <button onClick={() => logoutLine()}>logout</button>
+          <div>
+            <button onClick={() => getContext()}>ผูกบัญชีไลน์</button>
+          </div>
         </div>
       ) : (
         <div>
