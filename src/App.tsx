@@ -34,6 +34,7 @@ function App() {
       console.log("context:", liff.getContext());
       const contextData = liff.getContext();
       setContextData({ ...contextData });
+      console.log(profile);
       console.log("os:", liff.getOS());
     } catch (err) {
       console.error("LIFF init error:", err);
@@ -74,7 +75,7 @@ function App() {
         <div>
           <h2>Welcome, {profile?.displayName}</h2>
           <img src={profile?.pictureUrl} alt="profile" style={{ width: 100 }} />
-          <p>User ID: {profile?.userId}</p>
+          <p>User ID: {profile}</p>
           <button onClick={() => logoutLine()}>logout</button>
         </div>
       ) : (
