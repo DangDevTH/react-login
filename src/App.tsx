@@ -63,7 +63,7 @@ function App() {
       <h1>Vite + React</h1>
       <div className="card">
         <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+          Edit <code>src/App.tsx</code> Test
         </p>
         <button className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg shadow-md text-white bg-[#00C300] hover:bg-[#00a300] transition">
           <img
