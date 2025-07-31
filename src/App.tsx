@@ -9,7 +9,7 @@ function App() {
   const [profile, setProfile] = useState<any>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [idToken, setIdToken] = useState<string | null>(null);
-  const [contextData, setContextData] = useState<any>(null);
+  const [contextData, setContextData] = useState<any>();
   const loginLine = async () => {
     try {
       await liff.init({ liffId: "2007844970-wd1e003k" });
@@ -32,7 +32,7 @@ function App() {
     try {
       await liff.init({ liffId: "2007844970-wd1e003k" });
       console.log("context:", liff.getContext());
-      const contextData = liff.getContext();
+      const contextData = liff.getProfile();
       setContextData(contextData);
       console.log("os:", liff.getOS());
     } catch (err) {
@@ -62,7 +62,7 @@ function App() {
       </div>
       <p className="read-the-docs">
         showContext
-        {contextData && <div>context:{contextData}</div>}
+        {contextData.userId && <div>context:{contextData.userId}</div>}
       </p>
       {isLoggedIn ? (
         <div>
