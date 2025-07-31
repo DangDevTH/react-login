@@ -21,6 +21,7 @@ function App() {
       console.log("token", token);
       const contextData = liff.getContext();
       setContextData({ ...contextData });
+      console.log({ ...userProfile });
       setProfile({ ...userProfile });
       setIdToken(token);
       setIsLoggedIn(true);
@@ -44,13 +45,8 @@ function App() {
   const logoutLine = async () => {
     await liff.init({ liffId: "2007844970-wd1e003k" });
     liff.logout();
+    setContextData(null);
   };
-
-  useEffect(() => {
-    if (contextData?.userId) {
-      setIsLoggedIn(true);
-    }
-  }, [isLoggedIn]);
 
   console.log("Token", idToken);
   return (
