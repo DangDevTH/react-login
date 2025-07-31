@@ -17,7 +17,7 @@ function App() {
         const getIDToken = liff.getIDToken();
         console.log("getIDToken", getIDToken);
         if (!getIDToken) {
-          await loginLine();
+          // await loginLine();
         } else {
           setIdToken(getIDToken);
         }
