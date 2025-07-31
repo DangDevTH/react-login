@@ -62,7 +62,7 @@ function App() {
       </div>
       <p className="read-the-docs">
         showContext
-        {contextData && <p>context:{contextData}</>}
+        {contextData && <div>context:{contextData}</div>}
       </p>
       {isLoggedIn ? (
         <div>
