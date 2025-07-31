@@ -13,14 +13,14 @@ function App() {
     try {
       await liff.init({ liffId: "2007844970-wd1e003k" });
       liff.login({ redirectUri: window.location.href });
-      const userProfile = await liff.getProfile();
+      const userProfile = await liff.getDecodedIDToken();
       const token = liff.getIDToken();
       console.log("userProfile", liff.getContext());
       console.log("token", token);
       const contextData = liff.getContext();
       setContextData({ ...contextData });
       console.log({ ...userProfile });
-      setProfile({ ...userProfile });
+      setProfile(userProfile);
       setIdToken(token);
     } catch (err) {
       console.error("LIFF init error:", err);
