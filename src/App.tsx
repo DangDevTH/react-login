@@ -14,7 +14,7 @@ function App() {
       await liff.init({ liffId: "2007844970-wd1e003k" });
       liff.login({ redirectUri: window.location.href });
       const userProfile = await liff.getDecodedIDToken();
-      const token = liff.getIDToken();
+      const token = liff.getAccessToken();
       console.log("userProfile", liff.getContext());
       console.log("token", token);
       const contextData = liff.getContext();
@@ -33,7 +33,7 @@ function App() {
       console.log("context:", liff.getContext());
       const contextData = liff.getContext();
       setContextData({ ...contextData });
-      console.log(profile);
+      console.log("idToken", idToken);
       console.log("os:", liff.getOS());
     } catch (err) {
       console.error("LIFF init error:", err);
