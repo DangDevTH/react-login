@@ -6,28 +6,9 @@ import liff from "@line/liff";
 
 function App() {
   const [idToken, setIdToken] = useState<string | null>(null);
-  const [contextData, setContextData] = useState<any>(null);
   function sleep(ms: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
-
-  const loginLine = async () => {
-    try {
-      await sleep(5000);
-      // await liff.init({ liffId: "2007844970-wd1e003k" });
-      // liff.login({ redirectUri: window.location.href });
-      // const userProfile = liff.getDecodedIDToken();
-      // const token = liff.getAccessToken();
-      // console.log("userProfile", liff.getContext());
-      // console.log("token", token);
-      // const contextData = liff.getContext();
-      // setContextData({ ...contextData });
-      // console.log({ ...userProfile });
-      // setIdToken(token);
-    } catch (err) {
-      console.error("LIFF init error:", err);
-    }
-  };
 
   useEffect(() => {
     const initLiff = async () => {
@@ -36,7 +17,7 @@ function App() {
         const getIDToken = liff.getIDToken();
         console.log("getIDToken", getIDToken);
         if (!getIDToken) {
-          // await loginLine();
+          await loginLine();
         } else {
           setIdToken(getIDToken);
         }
@@ -49,17 +30,14 @@ function App() {
     initLiff();
   }, [idToken]);
 
-  const getContext = async () => {
+  const loginLine = async () => {
     try {
-      // await liff.init({ liffId: "2007844970-wd1e003k" });
-      // console.log("context:", liff.getContext());
-      // const contextData = liff.getContext();
-      // setContextData({ ...contextData });
-      // console.log("getAccessToken", liff.getAccessToken());
-      // console.log("getProfile", liff.getProfile());
-      // console.log("getProfilePlus", liff.getProfilePlus());
-      // console.log("getDecodedIDToken", liff.getDecodedIDToken());
-      // console.log("os:", liff.getOS());
+      await sleep(5000);
+      await liff.init({ liffId: "2007844970-wd1e003k" });
+      liff.login({ redirectUri: window.location.href });
+      const token = liff.getIDToken();
+      console.log("logining...");
+      setIdToken(token);
     } catch (err) {
       console.error("LIFF init error:", err);
     }
@@ -69,23 +47,8 @@ function App() {
     await liff.init({ liffId: "2007844970-wd1e003k" });
     liff.logout();
     window.location.href = "/";
-    setContextData(null);
   };
 
-  useEffect(() => {
-    const initContext = async () => {
-      try {
-        await liff.init({ liffId: "2007844970-wd1e003k" });
-        const contextData = await liff.getContext();
-        if (contextData?.userId) {
-          setContextData({ ...contextData });
-        } else {
-          setContextData(null);
-        }
-      } catch (error) {}
-    };
-    initContext();
-  }, [contextData]);
   console.log("Token", idToken);
   return (
     <>
@@ -115,17 +78,11 @@ function App() {
         <div>
           <p>User ID: {idToken}</p>
           <button onClick={() => logoutLine()}>logout</button>
-          <div>
-            <button onClick={() => getContext()}>ผูกบัญชีไลน์</button>
-          </div>
         </div>
       ) : (
         <div>
           <div>
             <button onClick={() => loginLine()}> Login line</button>
-          </div>
-          <div>
-            <button onClick={() => getContext()}>ผูกบัญชีไลน์</button>
           </div>
         </div>
       )}
