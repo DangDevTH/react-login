@@ -32,8 +32,8 @@ function App() {
     try {
       await liff.init({ liffId: "2007844970-wd1e003k" });
       console.log("context:", liff.getContext());
-      const contextData = liff.getProfile();
-      setContextData(contextData);
+      const contextData = liff.getContext();
+      setContextData({ ...contextData });
       console.log("os:", liff.getOS());
     } catch (err) {
       console.error("LIFF init error:", err);
