@@ -5,10 +5,24 @@ import "./App.css";
 import liff from "@line/liff";
 
 function App() {
-  const [profile, setProfile] = useState<any>(null);
   const [idToken, setIdToken] = useState<string | null>(null);
   const [contextData, setContextData] = useState<any>(null);
-
+  const loginLine = async () => {
+    try {
+      await liff.init({ liffId: "2007844970-wd1e003k" });
+      liff.login({ redirectUri: window.location.href });
+      const userProfile = liff.getDecodedIDToken();
+      const token = liff.getAccessToken();
+      console.log("userProfile", liff.getContext());
+      console.log("token", token);
+      const contextData = liff.getContext();
+      setContextData({ ...contextData });
+      console.log({ ...userProfile });
+      setIdToken(token);
+    } catch (err) {
+      console.error("LIFF init error:", err);
+    }
+  };
   useEffect(() => {
     const initLiff = async () => {
       try {
@@ -16,7 +30,7 @@ function App() {
         const getIDToken = liff.getIDToken();
         console.log("getIDToken", getIDToken);
         if (!getIDToken) {
-          liff.login();
+          await loginLine();
         } else {
           setIdToken(getIDToken);
         }
@@ -27,24 +41,6 @@ function App() {
 
     initLiff();
   }, [idToken]);
-
-  const loginLine = async () => {
-    try {
-      await liff.init({ liffId: "2007844970-wd1e003k" });
-      liff.login();
-      const userProfile = liff.getDecodedIDToken();
-      const token = liff.getAccessToken();
-      console.log("userProfile", liff.getContext());
-      console.log("token", token);
-      const contextData = liff.getContext();
-      setContextData({ ...contextData });
-      console.log({ ...userProfile });
-      setProfile(userProfile);
-      setIdToken(token);
-    } catch (err) {
-      console.error("LIFF init error:", err);
-    }
-  };
 
   const getContext = async () => {
     try {
@@ -97,7 +93,6 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button>count is {profile}</button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
@@ -110,10 +105,6 @@ function App() {
           <span className="font-medium">Login with LINE</span>
         </button>
       </div>
-      <p className="read-the-docs">
-        showContext
-        {contextData?.userId && <div>context:{contextData.userId}</div>}
-      </p>
       {idToken ? (
         <div>
           <p>User ID: {idToken}</p>
